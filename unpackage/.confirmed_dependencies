@@ -1,0 +1,231 @@
+{
+  "index.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/mui.js",
+      "training.html",
+      "js/mui.min.js",
+      "club.html",
+      "js/update.js"
+    ],
+    "refer": [
+      "yuejian.html",
+      "training.html",
+      "club.html",
+      "photoshow.html",
+      "me.html",
+      "index-menu.html",
+      "examples/guide.html",
+      "examples/input.html"
+    ]
+  },
+  "yuejian.html": {
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.js",
+      "images/slide1.jpg",
+      "fonts/mui-icons-extra.ttf",
+      "js/ajax1.js",
+      "images/slide4.jpg",
+      "fonts/mui.ttf",
+      "js/template-web.js",
+      "js/jquery-3.2.1.min.js",
+      "images/slide2.jpg",
+      "images/slide3.jpg",
+      "css/icons-extra.css"
+    ],
+    "refer": [
+      "detailmui.html"
+    ]
+  },
+  "club.html": {
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.js",
+      "images/slide1.jpg",
+      "js/ajax1.js",
+      "images/slide4.jpg",
+      "fonts/mui.ttf",
+      "js/template-web.js",
+      "js/jquery-3.2.1.min.js",
+      "images/slide2.jpg",
+      "images/slide3.jpg",
+      "css/icons-extra.css"
+    ],
+    "refer": [
+      "detailmui.html"
+    ]
+  },
+  "training.html": {
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.js",
+      "images/cbd.jpg",
+      "images/muwu.jpg",
+      "images/yuantiao.jpg",
+      "images/shuijiao.jpg",
+      "images/slide1.jpg",
+      "images/slide4.jpg",
+      "images/slide2.jpg",
+      "images/slide3.jpg",
+      "images/login-1.png",
+      "fonts/mui.ttf",
+      "js/ajax.js",
+      "js/ajax1.js",
+      "js/jquery-3.2.1.min.js",
+      "js/template-web.js",
+      "fonts/mui-icons-extra.ttf",
+      "css/icons-extra.css"
+    ],
+    "refer": [
+      "detailmui.html"
+    ]
+  },
+  "photoshow.html": {
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.js",
+      "images/slide1.jpg",
+      "js/ajax1.js",
+      "js/template-web.js",
+      "js/jquery-3.2.1.min.js",
+      "css/icons-extra.css",
+      "fonts/mui.ttf",
+      "images/logo.png",
+      "js/mui.view.js",
+      "js/jquery.form.js"
+    ],
+    "refer": [
+      "detailmui.html",
+      "addshaitu.html"
+    ]
+  },
+  "me.html": {
+    "resources": [
+      "js/mui.js",
+      "js/feedback.js",
+      "js/mui.view.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/ajax1.js",
+      "js/jquery-3.2.1.min.js",
+      "js/template-web.js",
+      "images/logo.png",
+      "images/qqimg.png",
+      "js/mui.min.js",
+      "js/jquery.form.js"
+    ],
+    "refer": [
+      "detailmui.html"
+    ]
+  },
+  "detailmui.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "js/ajax.js",
+      "js/ajax1.js",
+      "js/template-web.js",
+      "js/jquery-3.2.1.min.js",
+      "js/mui.js",
+      "detailmui.html",
+      "fonts/mui-icons-extra.ttf",
+      "css/icons-extra.css",
+      "videos/1.mp4",
+      "images/slide3.jpg"
+    ],
+    "refer": [
+      "share.html",
+      "enroll.html"
+    ]
+  },
+  "login.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/mui.enterfocus.js",
+      "images/sinaweibo.png",
+      "images/weixin.png",
+      "images/qq.png",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "index.html",
+      "reg.html",
+      "forget_password.html",
+      "guide.html",
+      "animate.html"
+    ]
+  },
+  "reg.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css"
+    ],
+    "refer": []
+  },
+  "share.html": {
+    "resources": [
+      "images/circle.png",
+      "images/qqimg.png",
+      "images/weixin.png",
+      "js/mui.min.js",
+      "css/mui.min.css"
+    ],
+    "refer": []
+  },
+  "enroll.html": {
+    "resources": [
+      "fonts/mui-icons-extra.ttf",
+      "js/ajax1.js",
+      "fonts/mui.ttf",
+      "js/template-web.js",
+      "css/mui.min.css",
+      "js/jquery-3.2.1.min.js",
+      "js/mui.js",
+      "css/icons-extra.css"
+    ],
+    "refer": []
+  },
+  "addshaitu.html": {
+    "resources": [
+      "js/app.js",
+      "js/ajax1.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "js/template-web.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "js/jquery-3.2.1.min.js",
+      "js/jquery.form.js",
+      "js/mui.js",
+      "js/mui.view.js"
+    ],
+    "refer": []
+  },
+  "guide.html": {
+    "resources": [
+      "images/guide1.png",
+      "images/guide2.png",
+      "images/guide3.png",
+      "css/mui.min.css",
+      "js/mui.js"
+    ],
+    "refer": []
+  },
+  "animate.html": {
+    "resources": [
+      "images/logo.png",
+      "js/mui.js",
+      "css/mui.min.css"
+    ],
+    "refer": []
+  }
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script type="text/javascript" src="js/mui.js" ></script>
+		<script type="text/javascript" src="js/ajax1.js" ></script>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+		<script type="text/javascript" src="js/template-web.js" ></script>
+		<script type="text/javascript" src="js/mui.view.js" ></script>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+		<script type="text/javascript" src="js/jquery.form.js" ></script>
+		<link rel="stylesheet" href="css/icons-extra.css" />
+		<style type="text/css">
+			#search{
+				margin: 0;
+			}
+			h5{
+				padding-left: 0.7rem;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+        <h1 class="mui-title">晒图</h1>
+        <a href="#account" id="icon-plus" class="mui-icon mui-icon-plus mui-pull-right"></a>
+    	</header>
+		<div class="mui-content" style="margin-top: 0;">
+			
+		    <div id="slider" class="mui-slider" >
+				<div class="mui-slider-group">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#" id="slide1">
+							<img id="slideimg1" src="images/slide1.jpg">
+						</a>
+					</div>
+				</div>
+			</div>
+			
+			<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+				<div id="slidehead">
+				</div>
+			</div>
+		</div>
+		</body>
+</html>
+<!---------------------------------利用template-web.js动态填充数据------------------------------->
+<!---------------------------------晒图数据填充------------------------------->
+<script id="slidehead-in" type="text/html">
+	{{each list as value i}}
+		<div class="mui-card">
+	    	<div id="shaitu/id/{{value.id}}" class="mui-card-header mui-card-media" style="height:40vw;background-image:url(http://172.24.10.175/workout/Uploads/{{value.thumb0}})"></div>
+			<div class="mui-card-content">
+				<div class="mui-card-content-inner">
+					<p>{{value.update_time}}</p>
+					<p style="color: #333;">{{value.title}}</p>
+				</div>
+			</div>
+			<div class="mui-card-footer">
+				<a class="mui-card-link">Like</a>
+				<a class="mui-card-link">Read more</a>
+			</div>
+        </div>
+    {{/each}}
+</script>
+<!---------------------------------------------------------------->
+<script type="text/javascript">
+	mui.init({
+				swipeBack:true, //启用右滑关闭功能
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					}
+				}
+			});
+		//下拉刷新具体业务实现
+		function pulldownRefresh() {
+			mui.toast('loading')
+			setTimeout(function() {
+				getlist();
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+			}, 1500);
+		}
+		//初始化单页view
+	mui.plusReady(function() {
+		var slider = mui("#slider");
+		//预加载详情页
+		webview_detail = mui.preload({
+	        url: 'detailmui.html',
+	        id: 'details',
+	        styles: {
+	            "render": "always",//一直渲染
+	            "popGesture": "hide",
+	        }
+	    });
+	});
+	
+	function getlist(){
+		$.ajax({
+		    type: "post",
+		    url: url,
+		    dataType: "jsonp",
+		    jsonp: "callback",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
+		    success: function(str){
+		    	var data={list:str};
+		    	var html=template('slidehead-in',data); 
+		    		document.getElementById("slidehead").innerHTML=html;
+//				    		console.log(html);
+		    },
+		    error: function(){
+		    	mui.toast("fail");
+		    }
+		});
+	}
+	var url='http://172.24.10.175/workout/api.php/lists/mod/shaitu';
+	mui.ready(function(){
+		//过滤html标签
+//		template.defaults.escape=false;
+		/*-------------------------------菜鸟训练数据获取-----------------------------*/
+		getlist();
+	});
+	
+	var detailPage = null;
+	/*-------------------------------添加列表项的点击事件-----------------------------*/
+	mui('#slidehead').on('tap', '.mui-card-header', function(e) {
+	  var id = this.getAttribute('id');
+//			  alert(id);
+	  //获得详情页面
+	  if(!detailPage){
+	    detailPage = plus.webview.getWebviewById('details');
+	  }
+	  //触发详情页面的newsId事件
+	  mui.fire(detailPage,'getId',{
+	    id:id
+	  });
+	//打开详情页面          
+	  mui.openWindow({
+	    id:'details'
+	  });
+	});
+	/*-------------------------------轮播图点击详情---------------------------------*/
+	document.getElementById("icon-plus").addEventListener('tap', function(e) {
+			//显示启动导航
+			mui.openWindow({
+				id: 'add',
+				url: 'addshaitu.html',
+				show: {
+					aniShow: 'fade-in',
+					duration: 300
+				},
+				waiting: {
+					autoShow: false
+				}
+			});
+		});
+</script>

@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="css/mui.min.css" rel="stylesheet" />
+	<script type="text/javascript" src="js/mui.js" ></script>
+	<script type="text/javascript" src="js/ajax1.js" ></script>
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+	<script type="text/javascript" src="js/template-web.js" ></script>
+	<link rel="stylesheet" href="css/icons-extra.css" />
+	<link rel="stylesheet" type="text/css" href="../css/app.css" />
+</head>
+
+<body>
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+    <h1 class="mui-title">详情</h1>
+    <a class="mui-icon mui-icon-extra-heart mui-icon-extra mui-pull-right"></a>
+</header>
+<div class="mui-content">
+	<div class="mui-card">
+		<div class="mui-card-header mui-card-media" id="imgdetail" style="height:40vw;background-image:url(../images/cbd.jpg)"></div>
+		<div class="mui-card-content">
+			<div class="mui-card-content-inner" id="details_div">
+				<!--动态填充html-->
+				
+			</div>
+			<!--价格-->			
+			<p style="color: #333;" id="price" hidden="hidden"></p>
+			<h5>&nbsp;&nbsp;&nbsp;&nbsp;请填写以下信息：</h5>
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>电话</label>
+					<input type="text" class="mui-input-clear" id="phone" placeholder="联系电话">
+					
+				</div>
+				
+				<div class="mui-input-row">
+					<label>用户名</label>
+					<input type="text" class="mui-input-clear" id="username" placeholder="带清除按钮的输入框">
+				</div>
+			</form>
+			<div class="mui-input-row">
+			<label>购买数量:</label>
+			<div class="mui-numbox" data-numbox-min='1'>
+				<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+				<input id="test" class="mui-input-numbox" type="number" value="1" />
+				<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+			</div>
+			
+			<div class="mui-input-row">
+				<label>总价:</label>
+				<label><p style="color: #333;" id="sum">0</p></label>
+			</div>
+			<h5 class="mui-content-padded">&nbsp;支付方式:</h5>
+			<ul class="mui-table-view mui-table-view-radio">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right">
+						微信
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-selected">
+					<a class="mui-navigate-right">
+						支付宝
+					</a>
+				</li>
+			</ul>
+			</div>
+		</div>
+		<div class="mui-card-footer">
+			<button type="button" class="mui-btn mui-btn-success mui-btn-block">提交</button>
+		</div>
+	</div>
+</div>
+<!------------------------菜鸟训练--------------------------->
+<script id="details_train1" type="text/html">
+	<p id="detail_title">标题：{{name}}</p>
+	<p style="color: #333;" >授课时间：{{traintime}}</p>
+	<p style="color: #333;" >授课地点：{{place}}</p>
+	<p style="color: #333;" >课程价格：{{price}}元</p>
+	<p style="color: #333;" >报名须知：{{notice}}</p>
+	
+</script>
+<script type="text/javascript">
+	mui.init();
+		
+	//添加newId自定义事件监听
+	mui.plusReady(function(){
+		var testBox=document.getElementById("test");
+		testBox.addEventListener('change',function(){
+			var price1=$("#price").text();
+			$("#sum").text(eval(price1*testBox.value));
+//			console.log(testBox.value);
+			console.log(price1);
+		});
+	});
+	
+
+	mui.ready(function(){
+		
+		window.addEventListener('getId',function(event){
+	  //获得事件参数
+	  var id = event.detail.id;
+	  //根据id向服务器请求新闻详情
+	  url=id;
+//	  mui.toast(id);
+	  $.ajax({
+		    type: "post",
+		    url: url,
+		    dataType: "jsonp",
+		    jsonp: "callback",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
+		    success: function(str){
+				$("#imgdetail").css("background-image",'url(' + 'http://172.24.10.175/workout/Uploads/'+str[0].thumb + ')');
+				$("#price").text(parseFloat(str[0].price));
+				$("#sum").text(str[0].price);
+				$("#phone").val(localStorage.getItem('username'));
+				$("#username").val(localStorage.getItem('username'));
+//				mui.toast(localStorage.getItem('username'))
+				if(id.indexOf("train") != -1 ){
+					var html=template('details_train1',str[0]); 
+		    		document.getElementById("details_div").innerHTML=html;
+				}
+		    },
+		    error: function(){
+		    	mui.toast("fail");
+		    }
+		});
+	});
+	}); 
+
+		
+	function call(){
+//		document.getElementById("call").addEventListener('tap',function(){
+            var btnArray=['取消','拨打'];
+            var phone=document.getElementById('call').innerText;
+            mui.confirm(phone,'提示',btnArray,function(e){
+                if(e.index == 1){
+                    plus.device.dial(phone,false);
+                }
+            });
+//      });
+}
+
+</script>
+
+</body>
+</html>

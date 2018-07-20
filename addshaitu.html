@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<style>
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			.mui-input-group label {
+				width: 22%;
+			}
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 78%;
+			}
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+			.mui-input-row label~input, .mui-input-row label~select, .mui-input-row label~textarea{
+				margin-top: 1px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">找回密码</h1>
+		</header>
+		<div class="mui-content">
+			<!--<form action="javascript:;" method="post" enctype="multipart/form-data" onsubmit="push()" class="biaodan">
+	            选择图片：
+	           
+	            <input type="file" id="inFile" onchange="getFilename()" name="thumb0"/><br>
+	            <input type="submit" value="" style="margin-top: 15%">
+	        </form>  -->
+			
+			<form action="javascript:;" method="post" hidden="hidden" enctype="multipart/form-data" onsubmit="tijiao()" class="biaodan">
+			<input type="file" id="inFile" name="thumb0" onchange="getFilename()"/>
+			<input type="submit" value="shangc" style="margin-top: 15%">
+			</form>
+			<div class="mui-content-padded" style="margin: 5px;">
+				<div class="mui-input-row" style="margin: 10px 5px;">
+					<textarea id="textarea" rows="5" placeholder="描述">fire in the hole</textarea>
+					<button><a id="head" onclick="clp()">选择图片</a></button>
+					<p id="filename">暂未选择图片</p>
+				</div>
+			</div>
+			<div class="mui-content-padded">
+				<button class="mui-btn mui-btn-block mui-btn-primary" onclick="push()">提交</button>
+			</div>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script type="text/javascript" src="js/mui.js" ></script>
+		<script type="text/javascript" src="js/mui.view.js" ></script>
+		<script type="text/javascript" src="js/ajax1.js" ></script>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+		<script type="text/javascript" src="js/template-web.js" ></script>
+		<script type="text/javascript" src="js/jquery.form.js" ></script>
+		<script>
+//		我的晒图接口：
+//		http://172.24.10.175/workout/api.php/lists/SessionID/1set9n4vfeaj51jmc2pcnncg71/mod/shaitu/userid/435
+		function clp(){
+		   return  $("#inFile").click();
+		}
+		
+		function getFilename(){
+			var f = document.getElementById("inFile").files;  
+			//名称
+			$("#filename").text("文件名:"+f[0].name);
+		}
+		
+		function push(){
+			var txt=$("#textarea").val();
+	        var url="http://172.24.10.175/workout/api.php/fcreate/SessionID/"+localStorage.getItem("SessionID")+"/mod/shaitu/userid/"+localStorage.getItem('userid')+"/title/"+txt;
+//	        alert(url);
+	        $(".biaodan").ajaxSubmit({
+	            url:url,
+	            dataType: 'json',
+	            beforeSubmit : function() {
+	                mui.toast('提交成功');
+	                //刷新父页面
+//	                userinfo();
+//		    		location.reload(); 
+	            },
+	            success: function(data) { // data 保存提交后返回的数据，一般为 json 数据
+	                // 此处可对 data 作相关处理
+	                alert('提交成功！'+data);
+	            }
+	        })
+	   }
+	function tijiao(){
+        var id=localStorage.getItem('userid');
+        var txt=$("#textarea").val();
+
+        var url="http://172.24.10.175/workout/api.php/fcreate/SessionID/1set9n4vfeaj51jmc2pcnncg71/mod/shaitu/userid/"+id+"/title/"+txt;
+        $(".biaodan").ajaxSubmit({
+            url:url,
+            dataType: 'json',
+            beforeSubmit : function() {
+                alert("发布成功");
+                location.reload(); 
+            },
+        })
+
+    }
+		</script>
+	</body>
+
+</html>

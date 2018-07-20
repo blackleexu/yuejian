@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script type="text/javascript" src="js/mui.js" ></script>
+		<script type="text/javascript" src="js/ajax1.js" ></script>
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js" ></script>
+		<script type="text/javascript" src="js/template-web.js" ></script>
+		<link rel="stylesheet" href="css/icons-extra.css" />
+		<style type="text/css">
+			#search{
+				margin: 0;
+			}
+			h5{
+				padding-left: 0.7rem;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+        <h1 class="mui-title">俱乐部</h1>
+    	</header>
+		<div class="mui-content" style="margin-top: 0;">
+		    <div id="slider" class="mui-slider" >
+				<div class="mui-slider-group mui-slider-loop">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#" id="slide1">
+							<img id="slideimg1" src="images/slide1.jpg">
+						</a>
+					</div>
+					<!-- 第一张 -->
+					<div class="mui-slider-item">
+						<a href="#" id="slide2">
+							<img id="slideimg2" src="images/slide2.jpg">
+						</a>
+					</div>
+					<!-- 第二张 -->
+					<div class="mui-slider-item">
+						<a href="#" id="slide3">
+							<img id="slideimg3" src="images/slide3.jpg">
+						</a>
+					</div>
+					<!-- 第三张 -->
+					<div class="mui-slider-item">
+						<a href="#" id="slide4">
+							<img id="slideimg4" src="images/slide4.jpg">
+						</a>
+					</div>
+					<!-- 第四张 -->
+					<div class="mui-slider-item">
+						<a href="#" id="slide11">
+							<img id="slideimg11" src="images/slide1.jpg">
+						</a>
+					</div>
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#" id="slide22">
+							<img id="slideimg22" src="images/slide2.jpg">
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+				<div class="mui-indicator mui-active"></div>
+				<div class="mui-indicator"></div>
+				<div class="mui-indicator"></div>
+				<div class="mui-indicator"></div>
+			</div>
+			</div>
+			<div class="mui-content" style="background-color:#fff">
+			    <h5 style="background-color:#efeff4">最具人气</h5>
+			    <ul class="mui-table-view mui-table-view-chevron" id="slidehead"></ul>
+			</div>
+			<div class="mui-content" style="background-color:#fff">
+			    <h5 style="background-color:#efeff4">离我最近</h5>
+			    <ul class="mui-table-view mui-table-view-chevron" id="masterul"></ul>    
+			</div>
+		</div>
+	</body>
+</html>
+<!---------------------------------利用template-web.js动态填充数据------------------------------->
+<!---------------------------------菜鸟训练------------------------------->
+<script id="slidehead-in" type="text/html">
+	{{each list as value i}}
+		<!--{{if i<4}}-->
+    	<li class="mui-table-view-cell mui-media" id="club/id/{{value.id}}">
+			<a class="mui-navigate-right">
+				<img class="mui-media-object mui-pull-left" src="http://172.24.10.175/workout/Uploads/{{value.thumb}}">
+				<div class="mui-media-body">
+					{{value.club_name}}
+					<p class='mui-ellipsis'>{{value.club_contact}}</p>
+				</div>
+			</a>
+		</li>
+        <!--{{/if}}-->
+    {{/each}}
+</script>
+<!---------------------------------------------------------------->
+<script id="master-li" type="text/html">
+	{{each list as value i}}
+		<!--{{if i<2}}-->
+    	<li class="mui-table-view-cell mui-media" id="club/id/{{value.id}}">
+			<a class="mui-navigate-right">
+				<img class="mui-media-object mui-pull-left" src="http://172.24.10.175/workout/Uploads/{{value.thumb}}">
+				<div class="mui-media-body">
+					{{value.club_name}}
+					<p class='mui-ellipsis' style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{value.club_contact}}</p>
+				</div>
+			</a>
+		</li>
+        <!--{{/if}}-->
+    {{/each}}
+</script>
+
+<script type="text/javascript">
+			
+			mui.plusReady(function() {
+				var slider = mui("#slider");
+				slider.slider({
+					interval: 2000
+				});
+				//预加载详情页
+				webview_detail = mui.preload({
+			        url: 'detailmui.html',
+			        id: 'details',
+			        styles: {
+			            "render": "always",//一直渲染
+			            "popGesture": "hide",
+			        }
+			    });
+			});
+			var url='http://172.24.10.175/workout/api.php/lists/mod/club';
+			mui.ready(function(){
+				//过滤html标签
+//				template.defaults.escape=false;
+				/*-------------------------------菜鸟训练数据获取-----------------------------*/
+				$.ajax({
+				    type: "post",
+				    url: url,
+				    dataType: "jsonp",
+				    jsonp: "callback",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
+				    success: function(str){
+				    	var data={list:str};
+				    	var html=template('slidehead-in',data); 
+				    		document.getElementById("slidehead").innerHTML=html;
+//				    		console.log(html);
+				    },
+				    error: function(){
+				    	mui.toast("fail");
+				    }
+				});
+				/*-------------------------------轮播数据获取-----------------------------*/
+				$.ajax({
+				    type: "post",
+				    url: "http://172.24.10.175/workout/api.php/lists/mod/club",
+				    dataType: "jsonp",
+				    jsonp: "callback",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
+				    success: function(str){
+//				    	mui.toast(str[0].id);
+				    	for (var i=1;i<5;i++) {
+				    		document.getElementById("slide"+i).setAttribute('id',"club/id/"+str[i].id);
+				    		$('#slideimg'+i).attr("src", "http://172.24.10.175/workout/Uploads/"+str[i].thumb);
+				    	}
+				    	document.getElementById("slide"+11).setAttribute('id',"club/id/"+str[1].id);
+				    	document.getElementById("slide"+22).setAttribute('id',"club/id/"+str[2].id);
+				    	$('#slideimg'+11).attr("src", "http://172.24.10.175/workout/Uploads/"+str[1].thumb);
+				    	$('#slideimg'+22).attr("src", "http://172.24.10.175/workout/Uploads/"+str[2].thumb);
+				    },
+				    error: function(){
+				    	mui.toast("fail");
+				    }
+				});
+				/*-------------------------------离我最近俱乐部数据获取-----------------------------*/
+				$.ajax({
+				    type: "post",
+				    url: "http://172.24.10.175/workout/api.php/nearclub",
+				    dataType: "jsonp",
+				    jsonp: "callback",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
+				    success: function(str){
+				    	var data={list:str};
+				    	var html=template('master-li',data); 
+				    		document.getElementById("masterul").innerHTML=html;
+//				    		console.log(html);
+				    },
+				    error: function(){
+				    	mui.toast("fail");
+				    }
+				});
+			});
+			mui.init({
+			  	swipeBack:true, //启用右滑关闭功能
+			});
+			var detailPage = null;
+			/*-------------------------------添加列表项的点击事件-----------------------------*/
+			mui('.mui-table-view').on('tap', 'li', function(e) {
+			  var id = this.getAttribute('id');
+//			  alert(id);
+			  //获得详情页面
+			  if(!detailPage){
+			    detailPage = plus.webview.getWebviewById('details');
+			  }
+			  //触发详情页面的newsId事件
+			  mui.fire(detailPage,'getId',{
+			    id:id
+			  });
+			//打开详情页面          
+			  mui.openWindow({
+			    id:'details'
+			  });
+			});
+			/*-------------------------------轮播图点击详情---------------------------------*/
+			mui('.mui-slider-group').on('tap', 'a', function(e) {
+			  var id = this.getAttribute('id');
+//			  alert(id);
+			  //获得详情页面
+			  if(!detailPage){
+			    detailPage = plus.webview.getWebviewById('details');
+			  }
+			  //触发详情页面的newsId事件
+			  mui.fire(detailPage,'getId',{
+			    id:id
+			  });
+			//打开详情页面          
+			  mui.openWindow({
+			    id:'details'
+			  });
+			});
+
+		</script>
